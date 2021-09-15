@@ -61,7 +61,7 @@ public class ChatClient {
         HashMap<String, Object> data = new HashMap<>();
         data.put("user", Main.currentUser.getId());
         data.put("group", Main.group);
-        data.put("content", content);
+        data.put("message", content);
         sendEvent(new SocketEvent(SocketEvent.SocketEventType.MESSAGE_SEND, data));
     }
 }

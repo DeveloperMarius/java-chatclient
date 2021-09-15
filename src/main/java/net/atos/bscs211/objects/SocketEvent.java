@@ -52,11 +52,12 @@ public class SocketEvent {
         switch (this.getEventType()){
             case CONNECT:
                 server.addUser(user.getId(), thread);
-                //TODO send user_list_info to user
+                //TODO send to all (not connected user) connected event
+                //TODO send user_list_info to connected user
                 break;
             case DISCONNECT:
                 server.removeUser(user.getId());
-                //TODO send user_list_info to user
+                //TODO send to all (not connected user) disconnected event
                 break;
             case MESSAGE_SEND:
                 //Create message object
