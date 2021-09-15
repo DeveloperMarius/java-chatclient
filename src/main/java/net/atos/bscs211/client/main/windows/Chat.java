@@ -22,7 +22,7 @@ public class Chat {
     @FXML private Button ausloggenButton;
     @FXML private AnchorPane chatPanel;
     @FXML private ScrollPane scroll;
-    @FXML private AnchorPane users;
+    @FXML private AnchorPane usersList;
 
     @FXML
     public void sendMessage(ActionEvent event) throws IOException{
@@ -45,9 +45,9 @@ public class Chat {
     }
 
     public void updateUsers(String[] usernames){
-        users.getChildren().removeAll();
+        usersList.getChildren().removeAll();
         for(int i = 0; i < usernames.length; i++){
-            users.getChildren().add(new Text(0, 12 * i, usernames[i]));
+            usersList.getChildren().add(new Text(0, 12 * i, usernames[i]));
         }
     }
 

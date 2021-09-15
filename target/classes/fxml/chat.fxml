@@ -22,6 +22,7 @@
                      </font>
                   </Text>
                   <Button fx:id="ausloggenButton" layoutX="17.0" layoutY="359.0" mnemonicParsing="false" onAction="#ausloggenButton" prefHeight="25.0" prefWidth="97.0" text="Ausloggen" />
+                  <AnchorPane fx:id="usersList" layoutX="17.0" layoutY="35.0" prefHeight="314.0" prefWidth="97.0" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="260.0" prefWidth="285.0">

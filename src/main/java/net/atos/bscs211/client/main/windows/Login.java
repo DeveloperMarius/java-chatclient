@@ -7,12 +7,15 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import net.atos.bscs211.client.main.Main;
+import net.atos.bscs211.objects.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
 public class Login {
+
 
     @FXML private TextField username;
     @FXML private PasswordField password;
@@ -22,7 +25,12 @@ public class Login {
     public void login(ActionEvent event) throws IOException{
         System.out.println(username.getText());
         System.out.println(password.getText());
+        // Get Password for user
+
+        // Compare with hash
+
         // if success
+        Main.currentUser = new User(1, username.getText(), password.getText());
         URL url = new File("src/main/resources/fxml/chat.fxml").toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = (Stage) registerButton.getScene().getWindow();
