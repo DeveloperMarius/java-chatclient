@@ -1,6 +1,6 @@
-package net.atos.bscs211.client.objects;
+package net.atos.bscs211.objects;
 
-import net.atos.bscs211.client.utils.DatabaseManager;
+import net.atos.bscs211.utils.DatabaseManager;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

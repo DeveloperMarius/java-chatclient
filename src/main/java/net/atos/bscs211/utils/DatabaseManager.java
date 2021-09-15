@@ -1,4 +1,4 @@
-package net.atos.bscs211.client.utils;
+package net.atos.bscs211.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
