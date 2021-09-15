@@ -31,6 +31,26 @@ public class User {
         return password;
     }
 
+    public static boolean login(String username, String password){
+        try {
+            User user = getByUsername(username);
+            return user.getPassword().equals(password);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static User getByUsername(String username) throws SQLException {
+        PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM `users` WHERE `username` = ?");
+        statement.setString(1, username);
+        ResultSet result = statement.executeQuery();
+        if(result.next()){
+            return new User(result.getInt("id"), result.getString("username"), result.getString("password"));
+        }
+        throw new SQLException("User not found");
+    }
+
     public static User getById(int id) throws SQLException {
         PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM `users` WHERE `id` = ?");
         statement.setInt(1, id);
