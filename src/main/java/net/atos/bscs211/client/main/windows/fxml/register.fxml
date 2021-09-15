@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="net.atos.bscs211.client.main.windows.Register">
+   <children>
+      <Pane prefHeight="300.0" prefWidth="300.0" style="-fx-background-color: #DDDDDD; -fx-background-radius: 10;">
+         <VBox.margin>
+            <Insets bottom="75.0" left="150.0" right="150.0" top="75.0" />
+         </VBox.margin>
+         <children>
+            <TextField layoutX="23.0" layoutY="111.0" prefHeight="25.0" prefWidth="254.0" fx:id="username"/>
+            <PasswordField layoutX="23.0" layoutY="146.0" prefHeight="25.0" prefWidth="254.0" fx:id="password"/>
+            <Button layoutX="23.0" layoutY="180.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="254.0" text="Registrieren" onAction="#register"  fx:id="button">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+            </Button>
+            <Text layoutX="10.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registrieren" textAlignment="CENTER" wrappingWidth="281.0">
+               <font>
+                  <Font name="Arial" size="20.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+   </children>
+</VBox>
