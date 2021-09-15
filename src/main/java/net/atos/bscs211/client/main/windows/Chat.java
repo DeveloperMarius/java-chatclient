@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import net.atos.bscs211.client.main.Main;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class Chat {
 
     public void addMessage(String msg){
         int childNumber = chatPanel.getChildren().size();
-        chatPanel.getChildren().add(new Text(10, 12 + 12*childNumber, "Username: " + msg));
+        chatPanel.getChildren().add(new Text(10, 12 + 12*childNumber, Main.currentUser.getUsername() + ": " + msg));
         scroll.setVvalue(1.1);
     }
 
