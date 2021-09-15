@@ -20,7 +20,7 @@ public class Chat {
 
     @FXML
     public void sendMessage(ActionEvent event) throws IOException{
-        System.out.println(sendMessage);
+        System.out.println(sendMessage.getText());
     }
 
     @FXML
