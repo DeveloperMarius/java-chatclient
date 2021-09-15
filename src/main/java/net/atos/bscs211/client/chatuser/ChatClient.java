@@ -4,6 +4,7 @@ import java.net.*;
 import java.io.*;
 
 public class ChatClient {
+
     private String hostname;
     private int port;
 
@@ -18,8 +19,8 @@ public class ChatClient {
 
             System.out.println("Connected to the Chat");
 
-            new ReadThreat(socket, this).run();
-            new WriteThread(socket, this).run();
+            new ReadThreat(socket).start();
+            new WriteThread(socket).start();
 
         } catch (UnknownHostException e) {
             System.out.println("Server not found: " + e.getMessage());

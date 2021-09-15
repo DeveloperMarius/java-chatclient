@@ -6,13 +6,12 @@ import java.io.*;
 import java.net.*;
 
 public class ReadThreat extends Thread {
+
     private BufferedReader reader;
     private Socket socket;
-    private ChatClient client;
 
-    public ReadThreat(Socket socket, ChatClient client) {
+    public ReadThreat(Socket socket) {
         this.socket = socket;
-        this.client = client;
 
         try {
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));

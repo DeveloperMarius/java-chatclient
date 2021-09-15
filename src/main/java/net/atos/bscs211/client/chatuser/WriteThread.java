@@ -6,14 +6,13 @@ import java.io.*;
 import java.net.*;
 import java.sql.SQLOutput;
 
-public class WriteThread {
+public class WriteThread extends Thread{
+
     private Socket socket;
-    private ChatClient client;
     private PrintWriter writer;
 
-    public WriteThread(Socket socket, ChatClient client) {
+    public WriteThread(Socket socket) {
         this.socket = socket;
-        this.client = client;
         try {
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
@@ -22,6 +21,7 @@ public class WriteThread {
             e.printStackTrace();
         }
     }
+
     public void run(){
         Console console = System.console();
         String text;
