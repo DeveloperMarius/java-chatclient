@@ -1,11 +1,16 @@
 package net.atos.bscs211.client.chatuser;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import net.atos.bscs211.client.main.Main;
 
 import java.io.*;
 import java.net.*;
 import java.sql.SQLOutput;
+import java.util.HashMap;
+import java.util.Map;
 
+@Deprecated
 public class WriteThread extends Thread{
 
     private Socket socket;
@@ -27,8 +32,11 @@ public class WriteThread extends Thread{
         String text;
 
         do {
-            text = console.readLine("[" + Main.$currentUser.getUsername() + "]: ");
-            writer.println(text);
+            text = console.readLine("[" + Main.currentUser.getUsername() + "]: ");
+            JsonObject obj = new JsonObject();
+            obj.addProperty("content", text);
+            obj.addProperty("user", Main.currentUser.getId());
+            writer.println(obj.toString());
         } while(!text.equals("bye"));
         try {
             socket.close();

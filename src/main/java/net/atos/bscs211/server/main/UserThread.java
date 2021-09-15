@@ -1,12 +1,18 @@
 package net.atos.bscs211.server.main;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import net.atos.bscs211.objects.SocketEvent;
+
 import java.io.*;
 import java.net.*;
+import java.sql.SQLException;
 import java.util.*;
 
 //TODO: update with database implementation
 
 public class UserThread extends Thread{
+
     private Socket socket;
     private ChatServer server;
     private PrintWriter writer;
@@ -30,28 +36,19 @@ public class UserThread extends Thread{
             OutputStream output = socket.getOutputStream();
             writer = new PrintWriter(output, true);
 
-            printUsers();
-
-            String userName = reader.readLine();
-            server.addUserName(userName);
-
-            String serverMessage = "New user connected: " + userName;
-            server.broadcast(serverMessage, this);
-
-            String clientMessage;
-
+            SocketEvent event = null;
             do{
-                clientMessage = reader.readLine();
-                serverMessage = "[" + userName + "]: " + clientMessage;
-                server.broadcast(serverMessage, this);
-            }while(!clientMessage.equals("bye"));
+                String clientMessage = reader.readLine();
+                event = SocketEvent.fromJson(clientMessage);
 
-            server.removeUser(userName, this);
+                try {
+                    event.progressServer(server, this);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }while(event.getEventType() != SocketEvent.SocketEventType.DISCONNECT);
 
             socket.close();
-
-            serverMessage = userName + "has quitted";
-            server.broadcast(serverMessage, this);
 
         } catch (IOException e){
             System.out.println("Error in UserThread" + e.getMessage());
@@ -61,16 +58,7 @@ public class UserThread extends Thread{
     }
 
 
-    void printUsers(){
-        if(server.hasUsers()){
-            writer.println("Connected users: " +  server.getUserNames());
-        } else {
-            writer.println("No other users connected");
-        }
-    }
-
-
-    void sendMessage(String message){
+    public void sendMessage(String message){
         writer.println(message);
     }
 

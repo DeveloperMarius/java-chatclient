@@ -9,12 +9,11 @@ import java.util.*;
 //TODO: update with database implementation
 
 public class ChatServer {
+
     private int port;
 
     //saved usernames
-    private Set<String> userNames = new HashSet<>(); //necessary with database?
-    //saved user threads
-    private Set<UserThread> userThreads = new HashSet<>();
+    private HashMap<Integer, UserThread> users = new HashMap<>();
 
     //constructor
     //
@@ -28,21 +27,14 @@ public class ChatServer {
     */
     public void execute(){
         try(ServerSocket serverSocket = new ServerSocket(port)){
-
             System.out.println("Start of execute function");
 
             while(true){
                 Socket socket = serverSocket.accept();
-                System.out.println("New user connected");
 
                 UserThread newUser = new UserThread(socket, this);
-                userThreads.add(newUser);
                 newUser.start();
-
             }
-
-
-
         } catch (IOException e){
             System.out.println("Server Error:" + e.getMessage());
             e.printStackTrace();
@@ -54,8 +46,7 @@ public class ChatServer {
     //initialises the server, starts execute function
     //
     public static void main(String[] args){
-
-        if(args.length<1){
+        if(args.length < 1){
             System.out.println("Syntax: java ChatServer <port-number>");
             System.exit(0);
         }
@@ -64,7 +55,6 @@ public class ChatServer {
 
         ChatServer server = new ChatServer(port);
         server.execute();
-
     }
 
 
@@ -72,40 +62,32 @@ public class ChatServer {
     //
     //sends a message to all users except the origin
     //
-    void broadcast(String message, UserThread excludeUser){ //excluded user = self
-        for(UserThread aUser : userThreads){
-            if (aUser !=excludeUser){
-                aUser.sendMessage(message);
+    public void broadcast(String message, int excludeUser){ //excluded user = self
+        for(Map.Entry<Integer, UserThread> entry : users.entrySet()){
+            if (entry.getKey() != excludeUser){
+                entry.getValue().sendMessage(message);
             }
         }
     }
 
-    //addUserName
-    //
-    //saves usernames on the server
-    //
-    public void addUserName(String userName){
-        userNames.add(userName);
+    public void addUser(int user, UserThread thread){
+        this.users.put(user, thread);
     }
 
     //removeUser
     //
     //removes a user from the server, deletes the thread
     //
-    void removeUser(String userName, UserThread aUser){
-        boolean removed = userNames.remove(userName);
-        if(removed){
-            userThreads.remove(aUser);
-            System.out.println("User" + userName + "has disconnected");
-        }
+    public void removeUser(int user){
+        this.users.remove(user);
     }
 
     //getUserNames
     //
     //returns all saved usernames
     //
-    public Set<String> getUserNames() {
-        return this.userNames;
+    public HashMap<Integer, UserThread> getUsers() {
+        return this.users;
     }
 
     //hasUsers
@@ -113,6 +95,6 @@ public class ChatServer {
     //checks if any users are connected
     //
     public boolean hasUsers(){
-        return !this.userNames.isEmpty();
+        return !this.users.isEmpty();
     }
 }
