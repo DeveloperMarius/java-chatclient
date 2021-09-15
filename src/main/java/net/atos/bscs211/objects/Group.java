@@ -5,6 +5,7 @@ import net.atos.bscs211.utils.DatabaseManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Group {
@@ -25,6 +26,17 @@ public class Group {
         return title;
     }
 
+    public ArrayList<Message> getMessages() throws SQLException {
+        PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM `messages` WHERE `group` = ?");
+        statement.setInt(1, getId());
+        ResultSet result = statement.executeQuery();
+        ArrayList<Message> messages = new ArrayList<>();
+        while(result.next()){
+            messages.add(new Message(result.getInt("id"), result.getInt("user"), result.getInt("group"), result.getString("content"), result.getLong("sent")));
+        }
+        return messages;
+    }
+
     public static Group getById(int id) throws SQLException {
         PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM `groups` WHERE `id` = ?");
         statement.setInt(1, id);
@@ -35,18 +47,13 @@ public class Group {
         throw new SQLException("User not found");
     }
 
-    public static ArrayList<Message> getMessages(Group group) throws SQLException {
-        return getMessages(group.getId());
-    }
-
-    public static ArrayList<Message> getMessages(int group) throws SQLException {
-        PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM `messages` WHERE `group` = ?");
-        statement.setInt(1, group);
-        ResultSet result = statement.executeQuery();
-        ArrayList<Message> messages = new ArrayList<>();
+    public static ArrayList<Group> getGroups() throws SQLException {
+        Statement statement = DatabaseManager.getConnection().createStatement();
+        ResultSet result = statement.executeQuery("SELECT * FROM `messages`");
+        ArrayList<Group> groups = new ArrayList<>();
         while(result.next()){
-            messages.add(new Message(result.getInt("id"), result.getInt("user"), result.getInt("group"), result.getString("content"), result.getLong("sent")));
+            groups.add(new Group(result.getInt("id"), result.getString("title")));
         }
-        return messages;
+        return groups;
     }
 }
