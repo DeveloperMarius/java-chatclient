@@ -1,5 +1,7 @@
 package net.atos.bscs211.client.chatuser;
 
+import net.atos.bscs211.client.main.Main;
+
 import java.io.*;
 import java.net.*;
 
@@ -26,9 +28,13 @@ public class ReadThreat extends Thread {
                 String response = reader.readLine();
                 System.out.println("\n" + response);
 
-                if (client.getUserName() != null);
+                if (Main.$currentUser.getUsername() != null) {
+                    System.out.println("[" + Main.$currentUser.getUsername() + "]");
+                }
             } catch (IOException e) {
+                System.out.println("Error reading from server: " + e.getMessage());
                 e.printStackTrace();
+                break;
             }
         }
     }
