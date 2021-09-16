@@ -32,6 +32,7 @@ public class ReadThreat extends Thread {
                 SocketEvent event = SocketEvent.fromJson(response);
                 try {
                     event.progressClient();
+
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }

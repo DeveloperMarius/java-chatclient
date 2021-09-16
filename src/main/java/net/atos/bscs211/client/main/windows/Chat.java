@@ -10,6 +10,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import net.atos.bscs211.client.main.Main;
+import net.atos.bscs211.objects.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,6 +24,10 @@ public class Chat {
     @FXML private AnchorPane chatPanel;
     @FXML private ScrollPane scroll;
     @FXML private AnchorPane usersList;
+
+    public Chat() {
+        Main.chat = this;
+    }
 
     @FXML
     public void sendMessage(ActionEvent event) throws IOException{
@@ -40,9 +45,9 @@ public class Chat {
         Main.currentUser = null;
     }
 
-    public void addMessage(String msg){
+    public void addMessage(User user, String msg){
         int childNumber = chatPanel.getChildren().size();
-        chatPanel.getChildren().add(new Text(10, 12 + 12*childNumber, Main.currentUser.getUsername() + ": " + msg));
+        chatPanel.getChildren().add(new Text(10, 12 + 12*childNumber, user.getUsername() + ": " + msg));
         scroll.setVvalue(1.1);
     }
 
