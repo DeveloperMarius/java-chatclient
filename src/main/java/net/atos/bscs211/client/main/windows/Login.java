@@ -27,7 +27,8 @@ public class Login {
     public void login(ActionEvent event) throws IOException, SQLException {
         if(User.login(username.getText(), password.getText())) {
             Main.currentUser = User.getByUsername(username.getText());
-            Main.client = new ChatClient("localhost", 1);
+            Main.client = new ChatClient("localhost", 8888);
+            Main.client.execute();
             URL url = new File("src/main/resources/fxml/chat.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Stage stage = (Stage) registerButton.getScene().getWindow();

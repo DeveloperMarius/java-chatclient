@@ -20,6 +20,7 @@ public class UserThread extends Thread{
     //constructor
     //
     public UserThread(Socket socket, ChatServer server){
+        System.out.println("New User Thread");
         this.socket = socket;
         this.server = server;
     }
@@ -30,6 +31,7 @@ public class UserThread extends Thread{
     //
     public void run(){
         try {
+            System.out.println("Run User Thread");
             InputStream input = socket.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 

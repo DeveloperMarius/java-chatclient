@@ -79,7 +79,7 @@ public class Message {
         statement.setInt(2, group);
         statement.setString(3, content);
         long sent = System.currentTimeMillis();
-        statement.setLong(3, sent);
+        statement.setLong(4, sent);
 
         if(statement.executeUpdate() > 0){
             int insert_id = -1;

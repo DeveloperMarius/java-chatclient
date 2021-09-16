@@ -27,7 +27,7 @@ public class SocketEvent {
     }
 
     public void progressClient() throws SQLException {
-        User user = User.getById((int) getData().get("user"));
+        User user = User.getById(((Double) getData().get("user")).intValue());
         switch (this.getEventType()){
             case CONNECT:
                 //TODO load messages
@@ -36,7 +36,7 @@ public class SocketEvent {
                 //nothing
                 break;
             case MESSAGE_SEND:
-                Message message = Message.getById((int) getData().get("message"));
+                Message message = Message.getById(((Double) getData().get("message")).intValue());
                 Main.chat.addMessage(user, message.getContent());
                 //TODO add message to message list
                 break;
@@ -50,7 +50,8 @@ public class SocketEvent {
     }
 
     public void progressServer(ChatServer server, UserThread thread) throws SQLException {
-        User user = User.getById((int) getData().get("user"));
+        System.out.println(getData().get("user").toString());
+        User user = User.getById(((Double) getData().get("user")).intValue());
         switch (this.getEventType()){
             case CONNECT:
                 server.addUser(user.getId(), thread);
@@ -63,7 +64,7 @@ public class SocketEvent {
                 break;
             case MESSAGE_SEND:
                 //Create message object
-                Message message = Message.create(user.getId(), (int) getData().get("group"), (String) getData().get("message"));
+                Message message = Message.create(user.getId(), ((Double) getData().get("group")).intValue(), (String) getData().get("message"));
                 //Override message with object id
                 getData().put("message", message.getId());
                 server.broadcast(this.toJson(), user.getId());
@@ -82,6 +83,7 @@ public class SocketEvent {
     }
 
     public static SocketEvent fromJson(String json){
+        System.out.println("Create Event from JSON: " + json);
         return new Gson().fromJson(json, SocketEvent.class);
     }
 
