@@ -64,7 +64,7 @@ public class Message {
         statement.setInt(1, id);
         ResultSet result = statement.executeQuery();
         if(result.next()){
-            return new Message(result.getInt("id"), result.getInt("user"), result.getInt("group"), result.getString("content"), result.getInt("sent"));
+            return new Message(result.getInt("id"), result.getInt("user"), result.getInt("group"), result.getString("content"), result.getLong("sent"));
         }
         throw new SQLException("User not found");
     }

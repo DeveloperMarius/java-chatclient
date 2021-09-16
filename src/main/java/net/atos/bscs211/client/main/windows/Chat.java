@@ -14,6 +14,7 @@ import net.atos.bscs211.objects.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 public class Chat {
@@ -37,8 +38,11 @@ public class Chat {
     }
 
     @FXML
-    public void ausloggenButton(ActionEvent event) throws IOException {
-        URL url = new File("src/main/resources/fxml/login.fxml").toURI().toURL();
+    public void ausloggenButton(ActionEvent event) throws IOException, URISyntaxException {
+        URL url = getClass().getResource("/fxml/chat.fxml");
+        if(url == null)
+            throw new RuntimeException("File not found");
+        url = url.toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = (Stage) ausloggenButton.getScene().getWindow();
         stage.setScene(new Scene(root, 600, 400));

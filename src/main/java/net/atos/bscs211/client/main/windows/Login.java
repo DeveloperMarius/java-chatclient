@@ -13,6 +13,7 @@ import net.atos.bscs211.objects.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
 
@@ -24,12 +25,15 @@ public class Login {
     @FXML private Button registerButton;
 
     @FXML
-    public void login(ActionEvent event) throws IOException, SQLException {
+    public void login(ActionEvent event) throws IOException, SQLException, URISyntaxException {
         if(User.login(username.getText(), password.getText())) {
             Main.currentUser = User.getByUsername(username.getText());
             Main.client = new ChatClient("localhost", 8888);
             Main.client.execute();
-            URL url = new File("src/main/resources/fxml/chat.fxml").toURI().toURL();
+            URL url = getClass().getResource("/fxml/chat.fxml");
+            if(url == null)
+                throw new RuntimeException("File not found");
+            url = url.toURI().toURL();
             Parent root = FXMLLoader.load(url);
             Stage stage = (Stage) registerButton.getScene().getWindow();
             stage.setScene(new Scene(root, 600, 400));

@@ -18,7 +18,10 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         try {
-            URL url = new File("src/main/resources/fxml/login.fxml").toURI().toURL();
+            URL url = getClass().getResource("/fxml/login.fxml");
+            if(url == null)
+                throw new RuntimeException("File not found");
+            url = url.toURI().toURL();
             Parent root = FXMLLoader.load(url);
             primaryStage.setTitle("Java Chat App");
             primaryStage.setScene(new Scene(root, 600, 400));

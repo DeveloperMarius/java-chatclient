@@ -11,6 +11,7 @@ import net.atos.bscs211.objects.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
 
@@ -30,8 +31,11 @@ public class Register {
         }
     }
 
-    public void toLogin(ActionEvent event) throws IOException {
-        URL url = new File("src/main/resources/fxml/login.fxml").toURI().toURL();
+    public void toLogin(ActionEvent event) throws IOException, URISyntaxException {
+        URL url = getClass().getResource("/fxml/login.fxml");
+        if(url == null)
+            throw new RuntimeException("File not found");
+        url = url.toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = (Stage) toLoginButton.getScene().getWindow();
         stage.setScene(new Scene(root, 600, 400));

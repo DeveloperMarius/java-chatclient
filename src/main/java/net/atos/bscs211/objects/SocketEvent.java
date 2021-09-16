@@ -1,6 +1,7 @@
 package net.atos.bscs211.objects;
 
 import com.google.gson.Gson;
+import javafx.application.Platform;
 import net.atos.bscs211.client.main.Main;
 import net.atos.bscs211.server.main.ChatServer;
 import net.atos.bscs211.server.main.UserThread;
@@ -37,7 +38,12 @@ public class SocketEvent {
                 break;
             case MESSAGE_SEND:
                 Message message = Message.getById(((Double) getData().get("message")).intValue());
-                Main.chat.addMessage(user, message.getContent());
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        Main.chat.addMessage(user, message.getContent());
+                    }
+                });
                 //TODO add message to message list
                 break;
             case UPDATE_USER_LIST:
