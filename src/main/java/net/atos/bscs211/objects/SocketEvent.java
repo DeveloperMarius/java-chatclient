@@ -40,25 +40,20 @@ public class SocketEvent {
                 break;
             case CONNECTED:
                 Main.userlist.add(user);
-                Main.chat.updateUsers(Main.userlist);
+                Platform.runLater(() -> Main.chat.updateUsers(Main.userlist));
                 break;
             case DISCONNECTED:
                 Main.userlist.remove(user);
-                Main.chat.updateUsers(Main.userlist);
+                Platform.runLater(() -> Main.chat.updateUsers(Main.userlist));
                 break;
             case MESSAGE_SEND:
                 Message message = Message.getById(((Double) getData().get("message")).intValue());
-                Platform.runLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        Main.chat.addMessage(user, message.getContent());
-                    }
-                });
+                Platform.runLater(() -> Main.chat.addMessage(user, message.getContent()));
                 //TODO add message to message list
                 break;
             case UPDATE_USER_LIST:
                 List<User> addUserList = (List<User>) getData().get("users");
-                Main.userlist.addAll(addUserList);
+                Platform.runLater(() -> Main.userlist.addAll(addUserList));
                 break;
             default:
                 //Event not found
@@ -82,8 +77,6 @@ public class SocketEvent {
                 data1.put("user", user.getId());
                 SocketEvent event1 = new SocketEvent(SocketEventType.UPDATE_USER_LIST, data1);
                 server.sendMessage(event1.toJson(), user.getId());
-                //TODO send to all (not connected user) connected event
-                //TODO send user_list_info to connected user
                 break;
             case DISCONNECT:
                 server.removeUser(user.getId());
