@@ -15,6 +15,8 @@ import net.atos.bscs211.objects.User;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+
 
 public class Chat {
 
@@ -51,10 +53,10 @@ public class Chat {
         scroll.setVvalue(1.1);
     }
 
-    public void updateUsers(String[] usernames){
+    public void updateUsers(ArrayList<User> usernames){
         usersList.getChildren().removeAll();
-        for(int i = 0; i < usernames.length; i++){
-            usersList.getChildren().add(new Text(0, 12 * i, usernames[i]));
+        for(int i = 0; i < usernames.size(); i++){
+            usersList.getChildren().add(new Text(0, 12 * i, usernames.get(i).getUsername()));
         }
     }
 

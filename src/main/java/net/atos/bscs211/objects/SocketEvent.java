@@ -6,7 +6,9 @@ import net.atos.bscs211.server.main.ChatServer;
 import net.atos.bscs211.server.main.UserThread;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class SocketEvent {
 
@@ -35,13 +37,22 @@ public class SocketEvent {
             case DISCONNECT:
                 //nothing
                 break;
+            case CONNECTED:
+                Main.userlist.add(user);
+                Main.chat.updateUsers(Main.userlist);
+                break;
+            case DISCONNECTED:
+                Main.userlist.remove(user);
+                Main.chat.updateUsers(Main.userlist);
+                break;
             case MESSAGE_SEND:
                 Message message = Message.getById(((Double) getData().get("message")).intValue());
                 Main.chat.addMessage(user, message.getContent());
                 //TODO add message to message list
                 break;
             case UPDATE_USER_LIST:
-                //TODO update user online list
+                List<User> addUserList = (List<User>) getData().get("users");
+                Main.userlist.addAll(addUserList);
                 break;
             default:
                 //Event not found
@@ -55,11 +66,25 @@ public class SocketEvent {
         switch (this.getEventType()){
             case CONNECT:
                 server.addUser(user.getId(), thread);
+                HashMap<String, Object> data = new HashMap<>();
+                data.put("user", user.getId());
+                SocketEvent event = new SocketEvent(SocketEventType.CONNECTED, data);
+                server.broadcast(event.toJson(), user.getId());
+
+                HashMap<String, Object> data1 = new HashMap<>();
+                data1.put("users", server.getUsers().keySet());
+                data1.put("user", user.getId());
+                SocketEvent event1 = new SocketEvent(SocketEventType.UPDATE_USER_LIST, data1);
+                server.sendMessage(event1.toJson(), user.getId());
                 //TODO send to all (not connected user) connected event
                 //TODO send user_list_info to connected user
                 break;
             case DISCONNECT:
                 server.removeUser(user.getId());
+                HashMap<String, Object> data2 = new HashMap<>();
+                data2.put("user", user.getId());
+                SocketEvent event2 = new SocketEvent(SocketEventType.DISCONNECTED, data2);
+                server.broadcast(event2.toJson(), user.getId());
                 //TODO send to all (not connected user) disconnected event
                 break;
             case MESSAGE_SEND:
@@ -70,7 +95,7 @@ public class SocketEvent {
                 server.broadcast(this.toJson(), user.getId());
                 break;
             case UPDATE_USER_LIST:
-                //will never reach server
+
                 break;
             default:
                 //Event not found
@@ -91,6 +116,8 @@ public class SocketEvent {
 
         CONNECT("connect"),
         DISCONNECT("disconnect"),
+        CONNECTED("connected"),
+        DISCONNECTED("disconnected"),
         MESSAGE_SEND("message_send"),
         UPDATE_USER_LIST("update_user_list");
 

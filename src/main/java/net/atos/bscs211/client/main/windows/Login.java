@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Login {
 
@@ -28,6 +29,7 @@ public class Login {
         if(User.login(username.getText(), password.getText())) {
             Main.currentUser = User.getByUsername(username.getText());
             Main.client = new ChatClient("localhost", 8888);
+            Main.userlist = new ArrayList<User>();
             Main.client.execute();
             URL url = new File("src/main/resources/fxml/chat.fxml").toURI().toURL();
             Parent root = FXMLLoader.load(url);

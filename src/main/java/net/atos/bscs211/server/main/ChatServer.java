@@ -69,6 +69,9 @@ public class ChatServer {
             }
         }
     }
+    public void sendMessage(String message, int user){ //excluded user = self
+        users.get(user).sendMessage(message);
+    }
 
     public void addUser(int user, UserThread thread){
         this.users.put(user, thread);
