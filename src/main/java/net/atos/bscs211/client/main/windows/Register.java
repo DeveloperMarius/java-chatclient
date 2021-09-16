@@ -7,10 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.stage.Stage;
+import net.atos.bscs211.objects.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class Register {
 
@@ -19,9 +21,13 @@ public class Register {
     @FXML private Button toLoginButton;
 
     @FXML
-    public void register(ActionEvent event){
-        System.out.println(username.getText());
-        System.out.println(password.getText());
+    public void register(ActionEvent event) throws SQLException {
+        if(User.exists(username.getText())) {
+            User.create(username.getText(), password.getText());
+            //succesfully registered message -> continue with login
+        } else {
+
+        }
     }
 
     public void toLogin(ActionEvent event) throws IOException {

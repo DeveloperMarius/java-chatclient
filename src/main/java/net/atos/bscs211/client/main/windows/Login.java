@@ -7,12 +7,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
+import net.atos.bscs211.client.chatuser.ChatClient;
 import net.atos.bscs211.client.main.Main;
 import net.atos.bscs211.objects.User;
 
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class Login {
 
@@ -22,19 +24,17 @@ public class Login {
     @FXML private Button registerButton;
 
     @FXML
-    public void login(ActionEvent event) throws IOException{
-        System.out.println(username.getText());
-        System.out.println(password.getText());
-        // Get Password for user
+    public void login(ActionEvent event) throws IOException, SQLException {
+        if(User.login(username.getText(), password.getText())) {
+            Main.currentUser = User.getByUsername(username.getText());
+            Main.client = new ChatClient("localhost", 1);
+            URL url = new File("src/main/resources/fxml/chat.fxml").toURI().toURL();
+            Parent root = FXMLLoader.load(url);
+            Stage stage = (Stage) registerButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 600, 400));
+        } else {
 
-        // Compare with hash
-
-        // if success
-        Main.currentUser = new User(1, username.getText(), password.getText());
-        URL url = new File("src/main/resources/fxml/chat.fxml").toURI().toURL();
-        Parent root = FXMLLoader.load(url);
-        Stage stage = (Stage) registerButton.getScene().getWindow();
-        stage.setScene(new Scene(root, 600, 400));
+        }
     }
 
     @FXML

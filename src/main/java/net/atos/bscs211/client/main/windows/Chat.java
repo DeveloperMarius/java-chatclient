@@ -26,8 +26,9 @@ public class Chat {
 
     @FXML
     public void sendMessage(ActionEvent event) throws IOException{
-        System.out.println(sendMessage.getText());
+        Main.client.sendMessage(sendMessage.getText());
         this.addMessage(sendMessage.getText());
+        sendMessage.clear();
     }
 
     @FXML

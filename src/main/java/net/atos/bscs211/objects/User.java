@@ -76,4 +76,7 @@ public class User {
         }else
             throw new SQLException("Failed to insert user");
     }
+    public static boolean exists(String username) {
+        return false;
+    }
 }
