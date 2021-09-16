@@ -1,5 +1,10 @@
 package net.atos.bscs211.utils;
 
-abstract class DataClass {
+import java.util.ArrayList;
 
+public class DataClass<T> {
+
+    public static <T> ArrayList<T> getAll(){
+        return new ArrayList<>();
+    }
 }
