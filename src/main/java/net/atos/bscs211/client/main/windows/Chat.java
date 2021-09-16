@@ -36,6 +36,7 @@ public class Chat {
         Parent root = FXMLLoader.load(url);
         Stage stage = (Stage) ausloggenButton.getScene().getWindow();
         stage.setScene(new Scene(root, 600, 400));
+        Main.currentUser = null;
     }
 
     public void addMessage(String msg){
