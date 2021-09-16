@@ -76,7 +76,14 @@ public class User {
         }else
             throw new SQLException("Failed to insert user");
     }
-    public static boolean exists(String username) {
+
+    public static boolean exists(String username) throws SQLException {
+        PreparedStatement statement = DatabaseManager.getConnection().prepareStatement("SELECT * FROM `users` WHERE `username` = ?");
+        statement.setString(1, username);
+        ResultSet result = statement.executeQuery();
+        if(result.next()){
+            return true;
+        }
         return false;
     }
 }
