@@ -30,7 +30,7 @@ public class Login {
     @FXML
     public void login(ActionEvent event) throws IOException, SQLException, URISyntaxException {
         error.setText("");
-        if(User.login(username.getText(), password.getText())) {
+        if(User.exists(username.getText()) && User.login(username.getText(), password.getText())) {
             Main.currentUser = User.getByUsername(username.getText());
             Main.client = new ChatClient("46.38.234.197", 8888);
             Main.userlist = new ArrayList<User>();
