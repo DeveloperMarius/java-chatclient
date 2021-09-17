@@ -32,7 +32,7 @@ public class Login {
         error.setText("");
         if(User.exists(username.getText()) && User.login(username.getText(), password.getText())) {
             Main.currentUser = User.getByUsername(username.getText());
-            Main.client = new ChatClient("46.38.234.197", 8888);
+            Main.client = new ChatClient("localhost", 8888);
             Main.userlist = new ArrayList<User>();
             Main.client.execute();
             URL url = getClass().getResource("/fxml/chat.fxml");

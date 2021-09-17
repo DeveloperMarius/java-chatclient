@@ -14,7 +14,7 @@ public class DatabaseManager {
         try {
             Class.forName("org.mariadb.jdbc.Driver");
 
-            connection = DriverManager.getConnection("jdbc:mariadb://185.245.99.56:3306/java-chatclient", "java-chatclient", "zX3u8^8bg1t11Kq_");
+            connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/database", "username", "password");
         } catch (Exception se) {
             se.printStackTrace();
         }
