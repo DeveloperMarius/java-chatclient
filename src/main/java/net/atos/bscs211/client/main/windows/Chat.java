@@ -40,6 +40,7 @@ public class Chat {
 
     @FXML
     public void sendMessage(ActionEvent event) throws IOException{
+        if(sendMessage.getText().isEmpty()) return;
         Main.client.sendMessage(sendMessage.getText());
         this.addMessage(Main.currentUser, sendMessage.getText());
         sendMessage.clear();

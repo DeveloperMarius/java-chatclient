@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import net.atos.bscs211.objects.User;
 
@@ -21,9 +22,11 @@ public class Register {
     @FXML private TextField username;
     @FXML private PasswordField password;
     @FXML private Button toLoginButton;
+    @FXML private Text error;
 
     @FXML
     public void register(ActionEvent event) throws SQLException, URISyntaxException, IOException {
+        error.setText("");
         if(!User.exists(username.getText())) {
             User.create(username.getText(), password.getText());
 
@@ -35,7 +38,7 @@ public class Register {
             Stage stage = (Stage) toLoginButton.getScene().getWindow();
             stage.setScene(new Scene(root, 600, 400));
         } else {
-
+            error.setText("Username ist bereits vergeben.");
         }
     }
 

@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.event.ActionEvent;
 import net.atos.bscs211.client.chatuser.ChatClient;
@@ -24,9 +25,11 @@ public class Login {
     @FXML private TextField username;
     @FXML private PasswordField password;
     @FXML private Button registerButton;
+    @FXML private Text error;
 
     @FXML
     public void login(ActionEvent event) throws IOException, SQLException, URISyntaxException {
+        error.setText("");
         if(User.login(username.getText(), password.getText())) {
             Main.currentUser = User.getByUsername(username.getText());
             Main.client = new ChatClient("46.38.234.197", 8888);
@@ -40,7 +43,7 @@ public class Login {
             Stage stage = (Stage) registerButton.getScene().getWindow();
             stage.setScene(new Scene(root, 600, 400));
         } else {
-
+            error.setText("Login fehlgeschlagen.");
         }
     }
 

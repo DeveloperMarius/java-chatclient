@@ -17,7 +17,7 @@
          </VBox.margin>
          <children>
             <TextField fx:id="username" layoutX="23.0" layoutY="111.0" prefHeight="25.0" prefWidth="254.0" promptText="Username" />
-            <PasswordField fx:id="password" layoutX="23.0" layoutY="146.0" prefHeight="25.0" prefWidth="254.0" promptText="Password" />
+            <PasswordField fx:id="password" layoutX="23.0" layoutY="146.0" onAction="#login" prefHeight="25.0" prefWidth="254.0" promptText="Password" />
             <Button fx:id="button" layoutX="23.0" layoutY="180.0" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="254.0" text="Login">
                <font>
                   <Font name="Arial" size="12.0" />
@@ -33,6 +33,11 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
+            <Text fx:id="error" fill="RED" layoutX="23.0" layoutY="93.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="254.0">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>

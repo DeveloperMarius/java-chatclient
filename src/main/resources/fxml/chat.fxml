@@ -36,7 +36,7 @@
                         </AnchorPane>
                     </content>
                   </ScrollPane>
-                  <TextField fx:id="sendMessage" layoutX="14.0" layoutY="359.0" prefHeight="25.0" prefWidth="366.0" promptText="Deine Nachricht ...">
+                  <TextField fx:id="sendMessage" layoutX="14.0" layoutY="359.0" onAction="#sendMessage" prefHeight="25.0" prefWidth="366.0" promptText="Deine Nachricht ...">
                      <font>
                         <Font name="Arial" size="12.0" />
                      </font>
