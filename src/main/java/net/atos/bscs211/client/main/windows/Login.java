@@ -29,7 +29,7 @@ public class Login {
     public void login(ActionEvent event) throws IOException, SQLException, URISyntaxException {
         if(User.login(username.getText(), password.getText())) {
             Main.currentUser = User.getByUsername(username.getText());
-            Main.client = new ChatClient("localhost", 8888);
+            Main.client = new ChatClient("46.38.234.197", 8888);
             Main.userlist = new ArrayList<User>();
             Main.client.execute();
             URL url = getClass().getResource("/fxml/chat.fxml");
@@ -45,8 +45,11 @@ public class Login {
     }
 
     @FXML
-    public void goToRegister(ActionEvent event) throws IOException {
-        URL url = new File("src/main/resources/fxml/register.fxml").toURI().toURL();
+    public void goToRegister(ActionEvent event) throws IOException, URISyntaxException {
+        URL url = getClass().getResource("/fxml/register.fxml");
+        if(url == null)
+            throw new RuntimeException("File not found");
+        url = url.toURI().toURL();
         Parent root = FXMLLoader.load(url);
         Stage stage = (Stage) registerButton.getScene().getWindow();
         stage.setScene(new Scene(root, 600, 400));

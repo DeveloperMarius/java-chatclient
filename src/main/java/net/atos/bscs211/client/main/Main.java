@@ -17,6 +17,5 @@ public class Main {
     public static void main(String[] args){
         //Do everything
         net.atos.bscs211.client.main.windows.Main.main(args);
-        DatabaseManager.closeConnection();
     }
 }

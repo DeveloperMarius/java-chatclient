@@ -37,6 +37,8 @@ public class ChatClient {
             data.put("group", Main.group);
             sendEvent(new SocketEvent(SocketEvent.SocketEventType.CONNECT, data));
 
+        }catch(SocketException e){
+            //Disconnect
         } catch (UnknownHostException e) {
             System.out.println("Server not found: " + e.getMessage());
         } catch (IOException e) {

@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class SocketEvent {
 
@@ -52,8 +55,34 @@ public class SocketEvent {
                 //TODO add message to message list
                 break;
             case UPDATE_USER_LIST:
-                List<User> addUserList = (List<User>) getData().get("users");
-                Platform.runLater(() -> Main.userlist.addAll(addUserList));
+                System.out.println("UPDATE_USER_LIST");
+                List<User> addUserList = ((List<Double>) getData().get("users")).stream().mapToInt(Double::intValue).mapToObj((users) -> {
+                    try {
+                        return User.getById(users);
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                }).filter(Objects::nonNull).collect(Collectors.toList());
+                addUserList.forEach((System.out::println));
+                Platform.runLater(() -> {
+                    System.out.println("before: " + Main.userlist);
+                    Main.userlist.addAll(addUserList);
+                    System.out.println("after: " + Main.userlist);
+                    Main.chat.updateUsers(Main.userlist);
+                    try {
+                        Group.getById(1).getMessages().forEach((chat_message -> {
+                            System.out.println(chat_message);
+                            try {
+                                Main.chat.addMessage(chat_message.getUserObject(), chat_message.getContent());
+                            } catch (SQLException e) {
+                                e.printStackTrace();
+                            }
+                        }));
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                });
                 break;
             default:
                 //Event not found

@@ -36,6 +36,8 @@ public class ReadThreat extends Thread {
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
+            }catch(SocketException e){
+                //Disconnect
             } catch (IOException e) {
                 System.out.println("Error reading from server: " + e.getMessage());
                 e.printStackTrace();

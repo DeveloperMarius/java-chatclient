@@ -11,6 +11,7 @@ import net.atos.bscs211.objects.User;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -22,10 +23,17 @@ public class Register {
     @FXML private Button toLoginButton;
 
     @FXML
-    public void register(ActionEvent event) throws SQLException {
-        if(User.exists(username.getText())) {
+    public void register(ActionEvent event) throws SQLException, URISyntaxException, IOException {
+        if(!User.exists(username.getText())) {
             User.create(username.getText(), password.getText());
-            //succesfully registered message -> continue with login
+
+            URL url = getClass().getResource("/fxml/login.fxml");
+            if(url == null)
+                throw new RuntimeException("File not found");
+            url = url.toURI().toURL();
+            Parent root = FXMLLoader.load(url);
+            Stage stage = (Stage) toLoginButton.getScene().getWindow();
+            stage.setScene(new Scene(root, 600, 400));
         } else {
 
         }

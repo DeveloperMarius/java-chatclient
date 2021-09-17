@@ -91,4 +91,15 @@ public class Message {
         }else
             throw new SQLException("Failed to insert message");
     }
+
+    @Override
+    public String toString() {
+        return "Message{" +
+                "id=" + id +
+                ", user=" + user +
+                ", group=" + group +
+                ", content='" + content + '\'' +
+                ", sent=" + sent +
+                '}';
+    }
 }
